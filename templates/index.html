@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>HelpDesk</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>HelpDesk</h1>
+        <p class="subtitle">Evidence IT ticketů</p>
+
+        <div class="ticket-form">
+
+            <form method="POST">
+                <input type="text" name="ticket" placeholder="Název ticketu">
+                <input type="text" name="typ_problemu" placeholder="Typ problému">
+                <input type="text" name="popis" placeholder="Popis problému">
+                <input type="text" name="oddeleni" placeholder="Oddělení">
+                <input type="date" name="datum">
+
+                <select name="urgentnost">
+                    <option>Skoro nehoří</option>
+                    <option>Střední</option>
+                    <option>Vysoká</option>
+                    <option>Kritická</option>
+                </select>
+
+
+                <button type="submit"> Přidat ticket</button>
+
+            </form>
+
+        </div>
+
+        <div class="ticket-list">
+
+            {% for ticket in tickets %}
+
+                <div class="ticket-card">
+
+                    <h2>{{ ticket.ticket }}</h2>
+
+                    <p><strong>Typ:</strong> {{ ticket.typ_problemu }}</p>
+                    <p><strong>Popis:</strong> {{ ticket.popis }}</p>
+                    <p><strong>Oddělení:</strong> {{ ticket.oddeleni }}</p>
+                    <p><strong>Datum:</strong> {{ ticket.datum }}</p>
+                    <p><strong>Urgentnost:</strong> {{ ticket.urgentnost }}</p>
+
+                    <form method="POST" action="/tickets/stav/{{ ticket.id }}">
+
+                        <select name="stav" onchange="this.form.submit()">
+                            <option value="Neřešeno" {% if ticket.stav == "Neřešeno" %}selected{% endif %}>Neřešeno</option>
+                            <option value="Řeší se" {% if ticket.stav == "Řeší se" %}selected{% endif %}>Řeší se</option>
+                            <option value="Vyřešeno" {% if ticket.stav == "Vyřešeno" %}selected{% endif %}>Vyřešeno</option>
+                            <option value="Odloženo" {% if ticket.stav == "Odloženo" %}selected{% endif %}>Odloženo</option>
+                        </select>
+
+                    </form>
+
+
+                    <form method="POST" action="/tickets/smaz/{{ ticket.id }}">
+                        <button type="submit">Smazat</button>
+                    </form>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>
