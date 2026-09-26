@@ -2,6 +2,7 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HelpDesk</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -16,21 +17,20 @@
         <div class="ticket-form">
 
             <form method="POST">
-                <input type="text" name="ticket" placeholder="Název ticketu">
-                <input type="text" name="typ_problemu" placeholder="Typ problému">
-                <input type="text" name="popis" placeholder="Popis problému">
-                <input type="text" name="oddeleni" placeholder="Oddělení">
-                <input type="date" name="datum">
+                <input type="text" name="ticket" placeholder="Název ticketu" aria-label="Název ticketu" required>
+                <input type="text" name="typ_problemu" placeholder="Typ problému" aria-label="Typ problému" required>
+                <input type="text" name="popis" placeholder="Popis problému" aria-label="Popis problému" required>
+                <input type="text" name="oddeleni" placeholder="Oddělení" aria-label="Oddělení" required>
+                <input type="date" name="datum" aria-label="Datum" required>
 
-                <select name="urgentnost">
+                <select name="urgentnost" aria-label="Urgentnost">
                     <option>Skoro nehoří</option>
                     <option>Střední</option>
                     <option>Vysoká</option>
                     <option>Kritická</option>
                 </select>
 
-
-                <button type="submit"> Přidat ticket</button>
+                <button type="submit">Přidat ticket</button>
 
             </form>
 
@@ -52,7 +52,7 @@
 
                     <form method="POST" action="/tickets/stav/{{ ticket.id }}">
 
-                        <select name="stav" onchange="this.form.submit()">
+                        <select name="stav" aria-label="Změnit stav" onchange="this.form.submit()">
                             <option value="Neřešeno" {% if ticket.stav == "Neřešeno" %}selected{% endif %}>Neřešeno</option>
                             <option value="Řeší se" {% if ticket.stav == "Řeší se" %}selected{% endif %}>Řeší se</option>
                             <option value="Vyřešeno" {% if ticket.stav == "Vyřešeno" %}selected{% endif %}>Vyřešeno</option>
@@ -60,7 +60,6 @@
                         </select>
 
                     </form>
-
 
                     <form method="POST" action="/tickets/smaz/{{ ticket.id }}">
                         <button type="submit">Smazat</button>
