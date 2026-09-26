@@ -24,11 +24,13 @@ def ticket():
             datum = request.form["datum"]
             stav = "Neřešeno"
 
-            cursor.execute(
-                "INSERT INTO tickets (ticket, typ_problemu, popis, urgentnost, oddeleni, datum, stav) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                (ticket, typ_problemu, popis, urgentnost, oddeleni, datum, stav)
-            )
-            db.commit()
+            if ticket and typ_problemu and popis and oddeleni and datum:
+
+                cursor.execute(
+                    "INSERT INTO tickets (ticket, typ_problemu, popis, urgentnost, oddeleni, datum, stav) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                    (ticket, typ_problemu, popis, urgentnost, oddeleni, datum, stav)
+                )
+                db.commit()
 
             cursor.close()
             db.close()

@@ -38,35 +38,43 @@
 
         <div class="ticket-list">
 
-            {% for ticket in tickets %}
+            {% if not tickets %}
 
-                <div class="ticket-card">
+                <p class="empty-state">Zatím žádné tickety 🎉</p>
 
-                    <h2>{{ ticket.ticket }}</h2>
+            {% else %}
 
-                    <p><strong>Typ:</strong> {{ ticket.typ_problemu }}</p>
-                    <p><strong>Popis:</strong> {{ ticket.popis }}</p>
-                    <p><strong>Oddělení:</strong> {{ ticket.oddeleni }}</p>
-                    <p><strong>Datum:</strong> {{ ticket.datum }}</p>
-                    <p><strong>Urgentnost:</strong> {{ ticket.urgentnost }}</p>
+                {% for ticket in tickets %}
 
-                    <form method="POST" action="/tickets/stav/{{ ticket.id }}">
+                    <div class="ticket-card">
 
-                        <select name="stav" aria-label="Změnit stav" onchange="this.form.submit()">
-                            <option value="Neřešeno" {% if ticket.stav == "Neřešeno" %}selected{% endif %}>Neřešeno</option>
-                            <option value="Řeší se" {% if ticket.stav == "Řeší se" %}selected{% endif %}>Řeší se</option>
-                            <option value="Vyřešeno" {% if ticket.stav == "Vyřešeno" %}selected{% endif %}>Vyřešeno</option>
-                            <option value="Odloženo" {% if ticket.stav == "Odloženo" %}selected{% endif %}>Odloženo</option>
-                        </select>
+                        <h2>{{ ticket.ticket }}</h2>
 
-                    </form>
+                        <p><strong>Typ:</strong> {{ ticket.typ_problemu }}</p>
+                        <p><strong>Popis:</strong> {{ ticket.popis }}</p>
+                        <p><strong>Oddělení:</strong> {{ ticket.oddeleni }}</p>
+                        <p><strong>Datum:</strong> {{ ticket.datum }}</p>
+                        <p><strong>Urgentnost:</strong> {{ ticket.urgentnost }}</p>
 
-                    <form method="POST" action="/tickets/smaz/{{ ticket.id }}">
-                        <button type="submit">Smazat</button>
-                    </form>
-                </div>
+                        <form method="POST" action="/tickets/stav/{{ ticket.id }}">
 
-            {% endfor %}
+                            <select name="stav" aria-label="Změnit stav" onchange="this.form.submit()">
+                                <option value="Neřešeno" {% if ticket.stav == "Neřešeno" %}selected{% endif %}>Neřešeno</option>
+                                <option value="Řeší se" {% if ticket.stav == "Řeší se" %}selected{% endif %}>Řeší se</option>
+                                <option value="Vyřešeno" {% if ticket.stav == "Vyřešeno" %}selected{% endif %}>Vyřešeno</option>
+                                <option value="Odloženo" {% if ticket.stav == "Odloženo" %}selected{% endif %}>Odloženo</option>
+                            </select>
+
+                        </form>
+
+                        <form method="POST" action="/tickets/smaz/{{ ticket.id }}">
+                            <button type="submit">Smazat</button>
+                        </form>
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
 
         </div>
 
